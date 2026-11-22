@@ -1,0 +1,20 @@
+SV_BandFilter
+Copyright (C) 2026 gmctec
+
+This program is free software; you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by the
+Free Software Foundation; either version 2 of the License, or (at your
+option) any later version. This matches the licence of Sonic Visualiser.
+The full licence text is in the LICENSE file.
+
+Anyone may use, study, modify and share this code free of charge. Under
+the GPL, copies and modified versions must keep the copyright notices
+above and in each source file, which credits the original author.
+If you use this work, please also credit "SV_BandFilter by gmctec" and
+link to https://github.com/gmctec/SV_BandFilter.
+
+Third-party file:
+  include/ladspa.h - LADSPA API header, Copyright (C) 2000-2002
+  Richard W.E. Furse, Paul Barton-Davis, Stefan Westerfeld.
+  Licensed under the GNU Lesser General Public License v2.1 or later.
+  Copied unchanged from Sonic Visualiser's svcore/plugin/api/ladspa.h.
