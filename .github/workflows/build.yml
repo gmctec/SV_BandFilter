@@ -1,0 +1,65 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+# Builds and tests the plugin on Windows (MSVC), macOS and Linux, and
+# keeps each built plugin as a downloadable artifact on the run page.
+
+name: build
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            artifact: sv_bandfilter-windows-x64
+            file: build/sv_bandfilter.dll
+          - os: macos-latest
+            artifact: sv_bandfilter-macos-arm64
+            file: build/sv_bandfilter.dylib
+          - os: ubuntu-latest
+            artifact: sv_bandfilter-linux-x64
+            file: build/sv_bandfilter.so
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Meson and Ninja
+        run: python -m pip install meson ninja
+
+      - name: Set up MSVC (Windows)
+        if: runner.os == 'Windows'
+        uses: ilammy/msvc-dev-cmd@v1
+
+      - name: Configure
+        run: meson setup build --buildtype release
+
+      - name: Build
+        run: meson compile -C build
+
+      - name: Test
+        run: meson test -C build --print-errorlogs
+
+      - name: Show test output
+        if: always()
+        shell: bash
+        run: cat build/meson-logs/testlog.txt || true
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}
+          path: |
+            ${{ matrix.file }}
+            LICENSE
+            NOTICE
+            README.md
