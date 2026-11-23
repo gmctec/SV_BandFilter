@@ -24,9 +24,17 @@ section at the bottom of the run page), or build it yourself (below).
 `C:\Program Files\Audacity\Plug-Ins`. To use another folder, set the
 `LADSPA_PATH` environment variable to it.
 
-**macOS:** copy `sv_bandfilter.dylib` into `~/Library/Audio/Plug-Ins/LADSPA`.
-An unsigned plugin downloaded from the internet may be blocked by Gatekeeper;
-if so, run `xattr -d com.apple.quarantine sv_bandfilter.dylib`.
+**macOS:** download **SV_BandFilter-macos-universal** from the latest
+`package-macos` run and open the `.pkg` installer inside. It installs the
+plugin for all users in `/Library/Audio/Plug-Ins/LADSPA` and runs on both
+Apple Silicon and Intel Macs (macOS 11 or later). The installer is unsigned,
+so macOS blocks it the first time: open **System Settings → Privacy &
+Security** and click **Open Anyway**. Or skip the installer and copy
+`sv_bandfilter.dylib` from the `.zip` into `~/Library/Audio/Plug-Ins/LADSPA`;
+if Gatekeeper then blocks it, run
+`xattr -d com.apple.quarantine sv_bandfilter.dylib`.
+See [PLATFORM_DIFFERENCES.md](PLATFORM_DIFFERENCES.md) for how the Windows
+and macOS builds differ.
 
 **Linux:** copy `sv_bandfilter.so` into `~/.ladspa` or `/usr/local/lib/ladspa`.
 
