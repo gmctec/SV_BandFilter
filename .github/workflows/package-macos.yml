@@ -1,0 +1,32 @@
+# SPDX-License-Identifier: GPL-2.0-or-later
+# Builds the macOS installer package (universal: Apple Silicon + Intel)
+# and keeps it as a downloadable artifact on the run page.
+
+name: package-macos
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  package:
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Meson and Ninja
+        run: python -m pip install meson ninja
+
+      - name: Build, test and package
+        run: bash packaging/macos/build_pkg.sh
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: SV_BandFilter-macos-universal
+          path: dist/*
